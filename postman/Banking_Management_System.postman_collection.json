@@ -1,0 +1,143 @@
+{
+  "info": {
+    "name": "Banking Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth - Register Customer",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/auth/register",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullName\": \"Priya Sharma\",\n  \"email\": \"priya@example.com\",\n  \"password\": \"password123\",\n  \"phone\": \"9876543210\",\n  \"address\": \"MG Road, Bengaluru\",\n  \"pan\": \"ABCDE9999F\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"rahul@bank.com\",\n  \"password\": \"customer123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Customer - Open Account",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/api/accounts",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"SAVINGS\",\n  \"initialDeposit\": 2000\n}"
+        }
+      }
+    },
+    {
+      "name": "Customer - My Accounts",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/api/accounts"
+      }
+    },
+    {
+      "name": "Customer - Deposit",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/api/accounts/1/deposit",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 1000,\n  \"description\": \"Salary credit\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Customer - Withdraw",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/api/accounts/1/withdraw",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 500,\n  \"description\": \"ATM withdrawal\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Customer - Transfer",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/api/transfers",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fromAccountId\": 1,\n  \"toAccountNumber\": \"BNK100002\",\n  \"amount\": 250,\n  \"description\": \"Dinner split\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Customer - Statement",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/api/accounts/1/transactions"
+      }
+    },
+    {
+      "name": "Admin - All Customers",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/api/admin/customers"
+      }
+    },
+    {
+      "name": "Admin - Freeze Account",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/api/admin/accounts/1/status",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"FROZEN\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Admin - Filter Transactions",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/api/admin/transactions?type=TRANSFER"
+      }
+    }
+  ]
+}
